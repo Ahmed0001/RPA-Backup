@@ -1,0 +1,202 @@
+﻿<process name="Test Microsoft Excel VBO - Extended" version="1.0" bpversion="7.0.0.40580" narrative="" byrefcollection="true" preferredid="d76b8895-f072-4c84-b224-aaa44dafcc19">
+  <view>
+    <camerax>0</camerax>
+    <cameray>113</cameray>
+    <zoom version="2">1.25</zoom>
+  </view>
+  <preconditions />
+  <endpoint narrative="" />
+  <stage stageid="a215481e-0578-4191-b279-b1f9f3ea816f" name="Start" type="Start">
+    <display x="0" y="-180" />
+    <onsuccess>89fad008-6c7d-4f1f-ad4f-5564d1b66f81</onsuccess>
+  </stage>
+  <stage stageid="b3a1259d-dc7e-4ebe-a684-19449df18481" name="End" type="End">
+    <display x="0" y="195" />
+  </stage>
+  <stage stageid="7f7f377e-393b-4a4f-b62f-925c13710dbe" name="Stage1" type="ProcessInfo">
+    <display x="-195" y="-105" w="150" h="90" />
+  </stage>
+  <stage stageid="1aeb906e-daa5-4929-b06b-3652de0de975" name="Source Workbook" type="Data">
+    <display x="-180" y="30" w="150" h="30" />
+    <font family="Tahoma" size="10" style="Regular" color="000000" />
+    <datatype>text</datatype>
+    <initialvalue xml:space="preserve">Sample Revenue.xlsx</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="be29610a-a872-4a40-9689-7b34b9e49b7c" name="Source Worksheet" type="Data">
+    <display x="-180" y="0" w="150" h="30" />
+    <font family="Tahoma" size="10" style="Regular" color="000000" />
+    <datatype>text</datatype>
+    <initialvalue xml:space="preserve">Sheet1</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="50b29460-2f5e-46c6-8488-b2ab8b066216" name="Source Range" type="Data">
+    <display x="-180" y="60" w="150" h="30" />
+    <font family="Tahoma" size="10" style="Regular" color="000000" />
+    <datatype>text</datatype>
+    <initialvalue xml:space="preserve">A1:D2</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="8432336a-d268-4583-96f2-1d465b3662c8" name="Chart Name" type="Data">
+    <display x="-180" y="120" w="150" h="30" />
+    <datatype>text</datatype>
+    <initialvalue xml:space="preserve">Revenue History</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="32eabe1c-57e0-4248-8033-09ad0258499b" name="Chart Type" type="Data">
+    <display x="-180" y="90" w="150" h="30" />
+    <datatype>number</datatype>
+    <initialvalue>51</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="89fad008-6c7d-4f1f-ad4f-5564d1b66f81" name="Create Instance" type="Action">
+    <loginhibit onsuccess="true" />
+    <display x="0" y="-135" />
+    <inputs>
+      <input type="flag" name="Enable Events" friendlyname="Enable Events" narrative="Flag to indicate that events should be enabled / disabled on the attached instance - defaulted to True" expr="&quot;True&quot;" />
+    </inputs>
+    <outputs>
+      <output type="number" name="handle" friendlyname="handle" narrative="An integer which can be used to identify the created instance in subsequent actions" stage="handle" />
+    </outputs>
+    <onsuccess>562d4b3d-8b11-42c7-b15f-ea1eb016433e</onsuccess>
+    <resource object="MS Excel VBO - Extended" action="Create Instance" />
+  </stage>
+  <stage stageid="ea7258bf-870d-4c3c-b9f0-334b07d73e68" name="handle" type="Data">
+    <display x="-180" y="180" w="150" h="30" />
+    <datatype>number</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="562d4b3d-8b11-42c7-b15f-ea1eb016433e" name="Show" type="Action">
+    <loginhibit onsuccess="true" />
+    <display x="0" y="-90" />
+    <inputs>
+      <input type="number" name="handle" friendlyname="handle" narrative="The integer handle identifying the instance which should have its window displayed. The default of zero indicates the currently active instance." expr="[handle]" />
+    </inputs>
+    <onsuccess>3bce694e-e1c4-4321-83b2-b96ae58c3f72</onsuccess>
+    <resource object="MS Excel VBO - Extended" action="Show" />
+  </stage>
+  <stage stageid="3bce694e-e1c4-4321-83b2-b96ae58c3f72" name="Open Workbook" type="Action">
+    <loginhibit onsuccess="true" />
+    <display x="0" y="-45" />
+    <inputs>
+      <input type="number" name="handle" friendlyname="handle" narrative="The integer handle identifying the instance on which the required workbook should be opened. The default of zero indicates the currently active instance." expr="[handle]" />
+      <input type="text" name="File name" friendlyname="File name" narrative="The path and name of the file which should be opened." expr="[Workbook Path]" />
+    </inputs>
+    <outputs>
+      <output type="text" name="Workbook Name" friendlyname="Workbook Name" narrative="The name used by Excel to identify the workbook - usually this is the file name (without the path)." stage="Source Workbook" />
+    </outputs>
+    <onsuccess>b0f39fde-a3a9-40a2-a02c-10e48f1b7cf2</onsuccess>
+    <resource object="MS Excel VBO - Extended" action="Open Workbook" />
+  </stage>
+  <stage stageid="9cbc5b1e-aa47-424e-b919-2589235b488b" name="Workbook Path" type="Data">
+    <display x="-180" y="150" w="150" h="30" />
+    <datatype>text</datatype>
+    <initialvalue xml:space="preserve">C:\Sample Revenue.xlsx</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="b0f39fde-a3a9-40a2-a02c-10e48f1b7cf2" name="Draw Chart" type="Action">
+    <loginhibit onsuccess="true" />
+    <display x="0" y="0" />
+    <inputs>
+      <input type="number" name="handle" friendlyname="handle" narrative="The integer handle identifying the instance on which the worksheet which should be retrieved resides. The default of zero indicates the currently active instance." expr="[handle]" />
+      <input type="text" name="Workbook Name" friendlyname="Workbook Name" narrative="The name of the workbook which contains the sheet required. The default empty text indicates the currently active workbook on the specified instance." expr="[Source Workbook]" />
+      <input type="text" name="Worksheet Name" friendlyname="Worksheet Name" narrative="The name of the worksheet within the specified workbook which should be written to a collection. The default empty text indicates the currently active worksheet within the specified workbook." expr="[Source Worksheet]" />
+      <input type="text" name="Worksheet Range" friendlyname="Worksheet Range" narrative="The starting and ending Cell Values for the Data to be charted (Example &quot;A1:D25&quot;" expr="[Source Range]" />
+      <input type="number" name="Chart Type" friendlyname="Chart Type" narrative="This is a number indicating the Chart Type (List can be found at (https://docs.microsoft.com/en-us/office/vba/api/excel.xlcharttype)." expr="[Chart Type]" />
+      <input type="text" name="Chart Name" friendlyname="Chart Name" narrative="The Name of the Chart.  The chart will be stored in a sheet with this name." expr="[Chart Name]" />
+    </inputs>
+    <outputs>
+      <output type="flag" name="Success" friendlyname="Success" narrative="Was Operation Successful" stage="Success" />
+      <output type="text" name="Message" friendlyname="Message" narrative="Message (Success or Detailed Exception Msg)" stage="Message" />
+    </outputs>
+    <onsuccess>c79eb576-c127-48f3-8803-fe33cc8307b4</onsuccess>
+    <resource object="MS Excel VBO - Extended" action="DrawChartFromRange" />
+  </stage>
+  <stage stageid="ac5a77a4-6478-4310-b824-e5cdabd16536" name="Success" type="Data">
+    <display x="-180" y="240" w="150" h="30" />
+    <datatype>flag</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="040b895d-3981-45c3-b827-48b53ef29c52" name="Message" type="Data">
+    <display x="-180" y="210" w="150" h="30" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="c79eb576-c127-48f3-8803-fe33cc8307b4" name="Copy to Clipboard" type="Action">
+    <loginhibit onsuccess="true" />
+    <display x="0" y="45" />
+    <inputs>
+      <input type="number" name="handle" friendlyname="handle" narrative="The integer handle identifying the instance on which the worksheet which should be retrieved resides. The default of zero indicates the currently active instance." expr="[handle]" />
+      <input type="text" name="Workbook Name" friendlyname="Workbook Name" narrative="The name of the workbook which contains the sheet required. The default empty text indicates the currently active workbook on the specified instance." expr="[Source Workbook]" />
+      <input type="text" name="Worksheet Name" friendlyname="Worksheet Name" narrative="The name of the worksheet within the specified workbook which should be written to a collection. The default empty text indicates the currently active worksheet within the specified workbook." expr="[Source Worksheet]" />
+      <input type="text" name="Chart Name" friendlyname="Chart Name" expr="[Chart Name]" />
+    </inputs>
+    <outputs>
+      <output type="flag" name="Success" friendlyname="Success" narrative="Was Operation Successful" stage="Success" />
+      <output type="text" name="Message" friendlyname="Message" narrative="Message (Success or Detailed Exception Msg)" stage="Message" />
+    </outputs>
+    <onsuccess>e7486931-689f-4adf-8594-05c4acc43bca</onsuccess>
+    <resource object="MS Excel VBO - Extended" action="CopyChartToClipboard" />
+  </stage>
+  <stage stageid="e7486931-689f-4adf-8594-05c4acc43bca" name="Save Chart" type="Action">
+    <loginhibit onsuccess="true" />
+    <display x="0" y="105" />
+    <inputs>
+      <input type="number" name="handle" friendlyname="handle" narrative="The integer handle identifying the instance on which the worksheet which should be retrieved resides. The default of zero indicates the currently active instance." expr="[handle]" />
+      <input type="text" name="Workbook Name" friendlyname="Workbook Name" narrative="The name of the workbook which contains the sheet required. The default empty text indicates the currently active workbook on the specified instance." expr="[Source Workbook]" />
+      <input type="text" name="Worksheet Name" friendlyname="Worksheet Name" narrative="The name of the worksheet within the specified workbook which should be written to a collection. The default empty text indicates the currently active worksheet within the specified workbook." expr="[Source Worksheet]" />
+      <input type="text" name="Chart Name" friendlyname="Chart Name" narrative="The name of the chart to be saved" expr="[Chart Name]" />
+      <input type="text" name="Save To File" friendlyname="Save To File" narrative="The name of the file that will be saved" expr="[Destination File Name]" />
+    </inputs>
+    <outputs>
+      <output type="flag" name="Success" friendlyname="Success" narrative="Was Operation Successful" stage="Success" />
+      <output type="text" name="Message" friendlyname="Message" narrative="Message (Success or Detailed Exception Msg)" stage="Message" />
+    </outputs>
+    <onsuccess>df5ff5a5-79f7-48c4-acca-f1ac2a9e65cb</onsuccess>
+    <resource object="MS Excel VBO - Extended" action="SaveChartAsImageFile" />
+  </stage>
+  <stage stageid="9d4abdb3-1f17-43a8-abc2-9fc9f6404597" name="Destination File Name" type="Data">
+    <narrative>Full Path Name to Destnation image file</narrative>
+    <display x="-165" y="285" w="150" h="30" />
+    <datatype>text</datatype>
+    <initialvalue xml:space="preserve">C:\Revenue History.png</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="df5ff5a5-79f7-48c4-acca-f1ac2a9e65cb" name="Kill Excel" type="Action">
+    <loginhibit onsuccess="true" />
+    <display x="0" y="150" />
+    <inputs>
+      <input type="number" name="handle" friendlyname="handle" narrative="The integer handle identifying the instance to be closed. Zero indicates the currently active instance." expr="[handle]" />
+      <input type="flag" name="Save Changes" friendlyname="Save Changes" narrative="True to save the changes to the open workbooks on the instance, False to discard any changes. Default is False." expr="False" />
+    </inputs>
+    <onsuccess>b3a1259d-dc7e-4ebe-a684-19449df18481</onsuccess>
+    <resource object="MS Excel VBO - Extended" action="Close Instance" />
+  </stage>
+  <stage stageid="9ee4bf2b-4e95-441b-9138-398fd89375fb" name="Blue Prism Limited Copyright Note" type="Note">
+    <loginhibit />
+    <narrative>'The MIT License'
+
+© 2020 Blue Prism Limited
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE</narrative>
+    <display x="-510" y="-45" w="450" h="210" />
+    <font family="Segoe UI" size="10" style="Bold" color="000000" />
+  </stage>
+</process>
