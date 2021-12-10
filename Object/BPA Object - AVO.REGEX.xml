@@ -1,0 +1,855 @@
+﻿<process name="AVO.Regex" version="1.0" bpversion="7.0.0.40580" narrative="Regex is a highly flexible and easy to use Blue Prism VBO that provides the ability to perform regular expression searches from within Blue Prism." byrefcollection="true" type="object" runmode="Background" preferredid="d3243589-ae65-4365-a661-9b07795d7591">
+  <appdef>
+    <element name="Application Root">
+      <id>35575b2a-7c5e-4698-80b2-ae350665b50a</id>
+      <type>Application</type>
+      <basetype>Application</basetype>
+      <datatype>unknown</datatype>
+      <diagnose>False</diagnose>
+    </element>
+  </appdef>
+  <view>
+    <camerax>0</camerax>
+    <cameray>0</cameray>
+    <zoom version="2">1.25</zoom>
+  </view>
+  <preconditions />
+  <endpoint narrative="" />
+  <subsheet subsheetid="c8b71c55-c230-4259-bde0-f02a16488a9d" type="CleanUp" published="True">
+    <name>Clean Up</name>
+    <view>
+      <camerax>0</camerax>
+      <cameray>0</cameray>
+      <zoom version="2">1.25</zoom>
+    </view>
+  </subsheet>
+  <subsheet subsheetid="3d5efda5-aa2f-4601-bfb1-df663e999c66" type="Normal" published="True">
+    <name>Extract First Match As Text</name>
+    <view>
+      <camerax>0</camerax>
+      <cameray>42</cameray>
+      <zoom version="2">1.25</zoom>
+    </view>
+  </subsheet>
+  <subsheet subsheetid="b64a9f97-98ca-4dd7-95aa-d8663e98ca00" type="Normal" published="True">
+    <name>Extract All Matches As Collection</name>
+    <view>
+      <camerax>0</camerax>
+      <cameray>42</cameray>
+      <zoom version="2">1.25</zoom>
+    </view>
+  </subsheet>
+  <subsheet subsheetid="3d95d0cf-decb-47b5-b811-c03a8bf553b3" type="Normal" published="True">
+    <name>Test Regex Match</name>
+    <view>
+      <camerax>7</camerax>
+      <cameray>35</cameray>
+      <zoom version="2">1.25</zoom>
+    </view>
+  </subsheet>
+  <subsheet subsheetid="af11dfd1-66ee-4a12-9a1f-e970a7f58ab3" type="Normal" published="True">
+    <name>Regex Replace</name>
+    <view>
+      <camerax>16</camerax>
+      <cameray>-72</cameray>
+      <zoom version="2">1.25</zoom>
+    </view>
+  </subsheet>
+  <subsheet subsheetid="3179b4e6-1661-4e50-a967-18e3a43c550c" type="Normal" published="True">
+    <name>Escape Text For Use In Regex</name>
+    <view>
+      <camerax>0</camerax>
+      <cameray>42</cameray>
+      <zoom version="2">1.25</zoom>
+    </view>
+  </subsheet>
+  <stage stageid="b48486e2-f109-473d-89dc-b295844900ac" name="Start" type="Start">
+    <loginhibit />
+    <display x="15" y="-105" />
+    <onsuccess>ef53265a-952e-4753-800f-6e7025914a3b</onsuccess>
+  </stage>
+  <stage stageid="ef53265a-952e-4753-800f-6e7025914a3b" name="End" type="End">
+    <loginhibit />
+    <display x="15" y="90" />
+  </stage>
+  <stage stageid="ddd47cdc-9ec2-4a89-8b47-36dce53cafc2" name="Stage1" type="ProcessInfo">
+    <display x="-195" y="-105" w="210" h="90" />
+    <references>
+      <reference>System.Data.dll</reference>
+      <reference>System.Xml.dll</reference>
+      <reference>System.Drawing.dll</reference>
+    </references>
+    <imports>
+      <import>System</import>
+      <import>System.Drawing</import>
+      <import>System.Text.RegularExpressions</import>
+      <import>System.Data</import>
+      <import>Microsoft.VisualBasic</import>
+    </imports>
+    <language>visualbasic</language>
+    <globalcode><![CDATA[]]></globalcode>
+    <code><![CDATA[Private Function CreateRegexOptions(Singleline As Boolean, IgnoreCase As Boolean, IgnoreWhitespace As Boolean, CultureInvariant As Boolean, ExplicitCapture As Boolean, RightToLeft As Boolean, ECMAScript As Boolean) As RegexOptions
+        If Singleline Then
+            CreateRegexOptions = CreateRegexOptions Or RegexOptions.Singleline
+        End If
+
+        If IgnoreCase Then
+            CreateRegexOptions = CreateRegexOptions Or RegexOptions.IgnoreCase
+        End If
+
+        If IgnoreWhitespace Then
+            CreateRegexOptions = CreateRegexOptions Or RegexOptions.IgnorePatternWhitespace
+        End If
+
+        If CultureInvariant Then
+            CreateRegexOptions = CreateRegexOptions Or RegexOptions.CultureInvariant
+        End If
+
+        If ExplicitCapture Then
+            CreateRegexOptions = CreateRegexOptions Or RegexOptions.ExplicitCapture
+        End If
+
+        If RightToLeft Then
+            CreateRegexOptions = CreateRegexOptions Or RegexOptions.RightToLeft
+        End If
+
+        If ECMAScript Then
+            CreateRegexOptions = CreateRegexOptions Or RegexOptions.ECMAScript
+        End If
+
+        Return CreateRegexOptions
+    End Function]]></code>
+  </stage>
+  <stage stageid="e74c026b-652d-4fd1-85e9-935ebbb874db" name="Clean Up" type="SubSheetInfo">
+    <subsheetid>c8b71c55-c230-4259-bde0-f02a16488a9d</subsheetid>
+    <display x="-195" y="-105" w="150" h="90" />
+  </stage>
+  <stage stageid="4281bcb9-285e-463b-84b1-56ffbb4feae0" name="Start" type="Start">
+    <subsheetid>c8b71c55-c230-4259-bde0-f02a16488a9d</subsheetid>
+    <loginhibit />
+    <display x="15" y="-105" />
+    <onsuccess>49f2bbce-1f77-4754-81ee-2af94902b233</onsuccess>
+  </stage>
+  <stage stageid="49f2bbce-1f77-4754-81ee-2af94902b233" name="End" type="End">
+    <subsheetid>c8b71c55-c230-4259-bde0-f02a16488a9d</subsheetid>
+    <loginhibit />
+    <display x="15" y="90" />
+  </stage>
+  <stage stageid="1d91b37c-dfd1-43b7-b8ba-2ce4079a0f28" name="Extract First Match As Text" type="SubSheetInfo">
+    <subsheetid>3d5efda5-aa2f-4601-bfb1-df663e999c66</subsheetid>
+    <narrative>Returns a single value from the first match of your regex pattern.
+
+The default return value is the full match of the regex, unless you specify a target group name.
+
+NOTE: Syntax errors in the regular expression will throw exceptions (including an empty expression), but as long as the expression is valid, the success variable will show the outcome.</narrative>
+    <display x="-195" y="-120" w="270" h="120" />
+  </stage>
+  <stage stageid="c6f85a5b-b765-49be-b9b5-af5c419317d5" name="Start" type="Start">
+    <subsheetid>3d5efda5-aa2f-4601-bfb1-df663e999c66</subsheetid>
+    <loginhibit />
+    <display x="45" y="-105" />
+    <inputs>
+      <input type="text" name="Regex Pattern" narrative="The regex pattern you want to search with." stage="Regex Pattern" />
+      <input type="text" name="Text To Perform Search On" narrative="The text you want to perform the regex search on." stage="Text To Perform Search On" />
+      <input type="text" name="Target Group Name" narrative="The name of the group you want to target. Set empty to return full match." stage="Target Group Name" />
+      <input type="flag" name="Require Unique Match" narrative="Set to true if you require the regex to only have a single match or match values that are identical to the first match." stage="Require Unique Match" />
+      <input type="flag" name="Regex Option: Singleline" narrative="OPTIONAL: (Default off) Perform search in “Singleline” mode?" stage="Regex Option: Singleline" />
+      <input type="flag" name="Regex Option: Ignore Case" narrative="OPTIONAL: (Default off) Perform search in “Ignore Case” mode?" stage="Regex Option: Ignore Case" />
+      <input type="flag" name="Regex Option: Explicit Capture" narrative="OPTIONAL: (Default off) Perform search in “Explicit Capture” mode?" stage="Regex Option: Explicit Capture" />
+    </inputs>
+    <onsuccess>a26941ae-46bd-4819-a539-fe8d80c43010</onsuccess>
+  </stage>
+  <stage stageid="2a68815d-1b59-421c-89e3-836fef08301b" name="End" type="End">
+    <subsheetid>3d5efda5-aa2f-4601-bfb1-df663e999c66</subsheetid>
+    <loginhibit />
+    <display x="45" y="90" />
+    <outputs>
+      <output type="text" name="Regex Match" narrative="The regex result, if any. It is blank if there is no match." stage="Regex Match" />
+      <output type="flag" name="Success" narrative="True if there was a match. False if not." stage="Success" />
+      <output type="text" name="Error Message" narrative="Outputs the error message that accompanies a false success." stage="Error Message" />
+    </outputs>
+  </stage>
+  <stage stageid="ffd3eb1a-9482-4576-ba15-62ea44edfa06" name="Note1" type="Note">
+    <subsheetid>c8b71c55-c230-4259-bde0-f02a16488a9d</subsheetid>
+    <narrative>Clean Up Page
+
+This is an optional page where you might choose to perform some finalisation (or "cleanup") tasks as your business object is closed down.
+
+The cleanup action will be called automatically immediately after closing your business object at the end of a business process.
+
+You will not be able to call this action from a business process, nor will it be called at any other time than before the disposal of the business object.</narrative>
+    <display x="-180" y="60" w="180" h="230" />
+  </stage>
+  <stage stageid="44d30925-c31e-4a32-ba04-470ccf749db4" name="Extract All Matches As Collection" type="SubSheetInfo">
+    <subsheetid>b64a9f97-98ca-4dd7-95aa-d8663e98ca00</subsheetid>
+    <narrative>Returns a collection with groups as columns and matches as rows.
+
+NOTE: Syntax errors in the regular expression will throw exceptions (including an empty expression), but as long as the expression is valid, the success variable will show the outcome.</narrative>
+    <display x="-195" y="-105" w="270" h="90" />
+  </stage>
+  <stage stageid="1f9dc481-1ddb-4c5e-b64f-d3723a4b646c" name="End" type="End">
+    <subsheetid>b64a9f97-98ca-4dd7-95aa-d8663e98ca00</subsheetid>
+    <loginhibit />
+    <display x="45" y="90" />
+    <outputs>
+      <output type="collection" name="Regex Matches" narrative="A collection of regex search results." stage="Regex Matches" />
+      <output type="flag" name="Success" narrative="True if there was a match. False if not." stage="Success" />
+    </outputs>
+  </stage>
+  <stage stageid="410701cf-6648-4476-bc1b-2eb564802422" name="Test Regex Match" type="SubSheetInfo">
+    <subsheetid>3d95d0cf-decb-47b5-b811-c03a8bf553b3</subsheetid>
+    <narrative>Checks if your regex pattern generates a match. The match itself is discarded.
+
+NOTE: Syntax errors in the regular expression will throw exceptions (including an empty expression), but as long as the expression is valid, the regex match variable will show the outcome.</narrative>
+    <display x="-180" y="-105" w="270" h="90" />
+  </stage>
+  <stage stageid="51e28abf-774d-463b-9a0f-25e12bfee05f" name="End" type="End">
+    <subsheetid>3d95d0cf-decb-47b5-b811-c03a8bf553b3</subsheetid>
+    <loginhibit />
+    <display x="60" y="90" />
+    <outputs>
+      <output type="flag" name="Regex Match" narrative="Whether or not a regex match was found against the provided pattern." stage="Regex Match" />
+    </outputs>
+  </stage>
+  <stage stageid="8d27d1cf-9185-4e87-b2b7-fc45a9fa32a4" name="Regex Pattern" type="Data">
+    <subsheetid>3d95d0cf-decb-47b5-b811-c03a8bf553b3</subsheetid>
+    <display x="-255" y="-15" w="120" h="30" />
+    <font family="Tahoma" size="10" style="Regular" color="000000" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="f2ee85e5-bc85-41a7-bf9a-b9071b0bd3d3" name="Text To Perform Search On" type="Data">
+    <subsheetid>3d95d0cf-decb-47b5-b811-c03a8bf553b3</subsheetid>
+    <display x="-255" y="15" w="120" h="30" />
+    <font family="Tahoma" size="10" style="Regular" color="000000" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="09276a81-982e-49fb-9f78-0416fe61b512" name="Test Regex Match" type="Code">
+    <subsheetid>3d95d0cf-decb-47b5-b811-c03a8bf553b3</subsheetid>
+    <loginhibit />
+    <display x="60" y="-15" w="120" h="30" />
+    <font family="Tahoma" size="10" style="Regular" color="000000" />
+    <inputs>
+      <input type="text" name="Regex Pattern" expr="[Regex Pattern]" />
+      <input type="text" name="Text To Perform Search On" expr="[Text To Perform Search On]" />
+      <input type="flag" name="Regex Option: Singleline" expr="[Regex Option: Singleline]" />
+      <input type="flag" name="Regex Option: Ignore Case" expr="[Regex Option: Ignore Case]" />
+      <input type="flag" name="Regex Option: Explicit Capture" expr="[Regex Option: Explicit Capture]" />
+    </inputs>
+    <outputs>
+      <output type="flag" name="Regex Match" stage="Regex Match" />
+    </outputs>
+    <onsuccess>51e28abf-774d-463b-9a0f-25e12bfee05f</onsuccess>
+    <code><![CDATA[If Regex_Pattern.Length = 0 Then
+	Throw New Exception("Regex Pattern is empty")
+End if
+
+Dim regexOptionConfiguration As RegexOptions = CreateRegexOptions(Regex_Option__Singleline, Regex_Option__Ignore_Case, False, False, Regex_Option__Explicit_Capture, False, False)
+Dim regexObject As New Regex(Regex_Pattern, regexOptionConfiguration)
+Regex_Match = regexObject.IsMatch(Text_To_Perform_Search_On)]]></code>
+  </stage>
+  <stage stageid="41a99439-7f18-40ac-b1f6-34e2d469b4f0" name="Regex Match" type="Data">
+    <subsheetid>3d95d0cf-decb-47b5-b811-c03a8bf553b3</subsheetid>
+    <display x="-120" y="-15" w="120" h="30" />
+    <font family="Tahoma" size="10" style="Regular" color="000000" />
+    <datatype>flag</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="0fe3da0b-bb3f-404e-ad27-221dd79af10b" name="Input" type="Block">
+    <subsheetid>3d95d0cf-decb-47b5-b811-c03a8bf553b3</subsheetid>
+    <loginhibit />
+    <display x="-315" y="-45" w="120" h="180" />
+    <font family="Segoe UI" size="10" style="Regular" color="339966" />
+  </stage>
+  <stage stageid="94628074-d693-4c83-92d2-985560f69abc" name="Output" type="Block">
+    <subsheetid>3d95d0cf-decb-47b5-b811-c03a8bf553b3</subsheetid>
+    <loginhibit />
+    <display x="-180" y="-45" w="120" h="60" />
+    <font family="Segoe UI" size="10" style="Regular" color="3366FF" />
+  </stage>
+  <stage stageid="cafd9f8b-d8af-4fb6-b4dd-d6ce5b68b7cc" name="Regex Pattern" type="Data">
+    <subsheetid>b64a9f97-98ca-4dd7-95aa-d8663e98ca00</subsheetid>
+    <display x="-270" y="-15" w="120" h="30" />
+    <font family="Tahoma" size="10" style="Regular" color="000000" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="97b06b52-4c54-4e47-ab89-0b1ccd1a8600" name="Text To Perform Search On" type="Data">
+    <subsheetid>b64a9f97-98ca-4dd7-95aa-d8663e98ca00</subsheetid>
+    <display x="-270" y="15" w="120" h="30" />
+    <font family="Tahoma" size="10" style="Regular" color="000000" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="4bbf6040-e9ac-4d6f-a811-ec28255455b0" name="Extract All Full Matches And Groups To Collection" type="Code">
+    <subsheetid>b64a9f97-98ca-4dd7-95aa-d8663e98ca00</subsheetid>
+    <loginhibit />
+    <display x="45" y="-15" w="120" h="30" />
+    <font family="Tahoma" size="10" style="Regular" color="000000" />
+    <inputs>
+      <input type="text" name="Regex Pattern" expr="[Regex Pattern]" />
+      <input type="text" name="Text To Perform Search On" expr="[Text To Perform Search On]" />
+      <input type="flag" name="Include full match column" expr="[Include Full Match Column]" />
+      <input type="flag" name="Regex Option: Singleline" expr="[Regex Option: Singleline]" />
+      <input type="flag" name="Regex Option: Ignore Case" expr="[Regex Option: Ignore Case]" />
+      <input type="flag" name="Regex Option: Explicit Capture" expr="[Regex Option: Explicit Capture]" />
+    </inputs>
+    <outputs>
+      <output type="collection" name="Regex Matches" stage="Regex Matches" />
+      <output type="flag" name="Success" stage="Success" />
+    </outputs>
+    <onsuccess>1f9dc481-1ddb-4c5e-b64f-d3723a4b646c</onsuccess>
+    <code><![CDATA[If Regex_Pattern.Length = 0 Then
+	Throw New Exception("Regex Pattern is empty")
+End if
+
+Dim fullMatchColumnName As String = "Full Match"
+
+Regex_Matches = New DataTable()
+If Include_full_match_column Then
+	Regex_Matches.Columns.Add(fullMatchColumnName, GetType(String))
+End If
+
+Dim regexOptionConfiguration As RegexOptions = CreateRegexOptions(Regex_Option__Singleline, Regex_Option__Ignore_Case, False, False, Regex_Option__Explicit_Capture, False, False)
+Dim regexObject As New Regex(Regex_Pattern, regexOptionConfiguration)
+Dim regexMatches As MatchCollection = regexObject.Matches(Text_To_Perform_Search_On)
+
+Success = regexMatches IsNot Nothing AndAlso regexMatches.Count > 0
+If Success Then
+
+	Dim groupNames() As String = regexObject.GetGroupNames()
+	groupNames(0) = fullMatchColumnName
+
+	For groupIndex As Integer = 1 To groupNames.GetUpperBound(0)
+		Regex_Matches.Columns.Add(groupNames(groupIndex), GetType(String))
+	Next
+
+	For Each regexMatch As Match In regexMatches
+
+		Dim resultRow As DataRow = Regex_Matches.NewRow()
+		Dim groupIndex As Integer = 0
+
+		For Each regexGroup As Group In regexMatch.Groups
+			If groupIndex > 0 OR Include_full_match_column Then
+				resultRow(groupNames(groupIndex)) = regexGroup.Value
+			End If
+			
+			groupIndex += 1
+		Next
+		Regex_Matches.Rows.Add(resultRow)
+	Next
+End If]]></code>
+  </stage>
+  <stage stageid="80010e33-6a67-43f4-8832-556c0d228bf7" name="Input" type="Block">
+    <subsheetid>b64a9f97-98ca-4dd7-95aa-d8663e98ca00</subsheetid>
+    <loginhibit />
+    <display x="-330" y="-45" w="120" h="210" />
+    <font family="Segoe UI" size="10" style="Regular" color="339966" />
+  </stage>
+  <stage stageid="02e1c3e2-850d-499b-85df-500c0c697cdf" name="Output" type="Block">
+    <subsheetid>b64a9f97-98ca-4dd7-95aa-d8663e98ca00</subsheetid>
+    <loginhibit />
+    <display x="-195" y="-45" w="120" h="90" />
+    <font family="Segoe UI" size="10" style="Regular" color="3366FF" />
+  </stage>
+  <stage stageid="5d771a51-3acb-4837-8c40-6b21609dfeec" name="Regex Matches" type="Collection">
+    <subsheetid>b64a9f97-98ca-4dd7-95aa-d8663e98ca00</subsheetid>
+    <display x="-135" y="-15" w="120" h="30" />
+    <datatype>collection</datatype>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="a8fe0a1b-36bb-42eb-b51f-fbce60d47ff6" name="Regex Pattern" type="Data">
+    <subsheetid>3d5efda5-aa2f-4601-bfb1-df663e999c66</subsheetid>
+    <display x="-270" y="-15" w="120" h="30" />
+    <font family="Tahoma" size="10" style="Regular" color="000000" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="4f56eef1-f977-480f-8f7e-13189fb666dc" name="Text To Perform Search On" type="Data">
+    <subsheetid>3d5efda5-aa2f-4601-bfb1-df663e999c66</subsheetid>
+    <display x="-270" y="15" w="120" h="30" />
+    <font family="Tahoma" size="10" style="Regular" color="000000" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="a26941ae-46bd-4819-a539-fe8d80c43010" name="Extract Single Full Match To Text" type="Code">
+    <subsheetid>3d5efda5-aa2f-4601-bfb1-df663e999c66</subsheetid>
+    <loginhibit />
+    <display x="45" y="-15" w="120" h="30" />
+    <font family="Tahoma" size="10" style="Regular" color="000000" />
+    <inputs>
+      <input type="text" name="Regex Pattern" expr="[Regex Pattern]" />
+      <input type="text" name="Text To Perform Search On" expr="[Text To Perform Search On]" />
+      <input type="text" name="Target Group Name" expr="[Target Group Name]" />
+      <input type="flag" name="Require unique match" expr="[Require Unique Match]" />
+      <input type="flag" name="Regex Option: Singleline" expr="[Regex Option: Singleline]" />
+      <input type="flag" name="Regex Option: Ignore Case" expr="[Regex Option: Ignore Case]" />
+      <input type="flag" name="Regex Option: Explicit Capture" expr="[Regex Option: Explicit Capture]" />
+    </inputs>
+    <outputs>
+      <output type="text" name="Regex Match" stage="Regex Match" />
+      <output type="flag" name="Success" stage="Success" />
+      <output type="text" name="Error Message" stage="Error Message" />
+    </outputs>
+    <onsuccess>2a68815d-1b59-421c-89e3-836fef08301b</onsuccess>
+    <code><![CDATA[If Regex_Pattern.Length = 0 Then
+	Throw New Exception("Regex Pattern is empty")
+End if
+
+Dim regexOptionConfiguration As RegexOptions = CreateRegexOptions(Regex_Option__Singleline, Regex_Option__Ignore_Case, False, False, Regex_Option__Explicit_Capture, False, False)
+Dim regexObject As New Regex(Regex_Pattern, regexOptionConfiguration)
+
+If Not Require_unique_match Then
+	Dim regexMatch As Match = regexObject.Match(Text_To_Perform_Search_On)
+
+	Regex_Match = ""
+
+	Success = regexMatch IsNot Nothing AndAlso regexMatch.Success
+	If Success Then
+		Success = True
+		If Target_Group_Name <> "" Then
+			Try
+				Regex_Match = regexMatch.Groups(Target_Group_Name).Value
+			Catch ex As Exception
+				Throw New Exception("Target group name not found in match")
+			End Try
+		Else
+			Regex_Match = regexMatch.Captures(0).ToString()
+		End If
+	Else
+		Error_Message = "No matches found"
+	End If
+Else
+	Dim regexMatches As MatchCollection = regexObject.Matches(Text_To_Perform_Search_On)
+
+	Success = regexMatches IsNot Nothing AndAlso regexMatches.Count > 0
+	If Success Then
+		Dim firstMatchValue As String
+
+		If Target_Group_Name <> "" Then
+			Try
+				firstMatchValue = regexMatches(0).Groups(Target_Group_Name).Value
+			Catch ex As Exception
+				Throw New Exception("Target group name not found in match")
+			End Try
+
+			For Each regexMatch As Match In regexMatches
+				If regexMatch.Groups(Target_Group_Name).Value <> firstMatchValue Then
+					Success = False
+					Error_Message = "Multiple matches found. No unique match"
+					Exit For
+				End If
+			Next
+		Else
+			firstMatchValue = regexMatches(0).Captures(0).ToString()
+			
+			For Each regexMatch As Match In regexMatches
+				If regexMatch.Captures(0).ToString() <> firstMatchValue Then
+					Success = False
+					Error_Message = "Multiple matches found. No unique match"
+					Exit For
+				End If
+			Next
+		End If
+
+		If Error_Message.Length = 0 Then
+			Regex_Match = firstMatchValue
+		End If
+	Else
+		Error_Message = "No matches found"
+	End If
+End If]]></code>
+  </stage>
+  <stage stageid="ddb826a6-0dda-40ad-b650-8ead54a78c08" name="Regex Option: Singleline" type="Data">
+    <subsheetid>3d5efda5-aa2f-4601-bfb1-df663e999c66</subsheetid>
+    <display x="-270" y="105" w="120" h="30" />
+    <datatype>flag</datatype>
+    <initialvalue>False</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="b8e20d66-f0a5-44d5-aebe-e2b645d29367" name="Regex Option: Ignore Case" type="Data">
+    <subsheetid>3d5efda5-aa2f-4601-bfb1-df663e999c66</subsheetid>
+    <display x="-270" y="135" w="120" h="30" />
+    <datatype>flag</datatype>
+    <initialvalue>False</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="ba5de932-e291-4c80-9ce5-8f9153309792" name="Regex Option: Explicit Capture" type="Data">
+    <subsheetid>3d5efda5-aa2f-4601-bfb1-df663e999c66</subsheetid>
+    <display x="-270" y="165" w="120" h="30" />
+    <datatype>flag</datatype>
+    <initialvalue>False</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="26b7c5b8-e355-40fc-afcc-0c8c4b289c3e" name="Input" type="Block">
+    <subsheetid>3d5efda5-aa2f-4601-bfb1-df663e999c66</subsheetid>
+    <loginhibit />
+    <display x="-330" y="-45" w="120" h="240" />
+    <font family="Segoe UI" size="10" style="Regular" color="339966" />
+  </stage>
+  <stage stageid="3f0914a5-0363-4f49-a508-61c637e521cd" name="Output" type="Block">
+    <subsheetid>3d5efda5-aa2f-4601-bfb1-df663e999c66</subsheetid>
+    <loginhibit />
+    <display x="-195" y="-45" w="120" h="120" />
+    <font family="Segoe UI" size="10" style="Regular" color="3366FF" />
+  </stage>
+  <stage stageid="cacd179b-75f6-4a57-8f5c-fc2ea5b40b0c" name="Regex Match" type="Data">
+    <subsheetid>3d5efda5-aa2f-4601-bfb1-df663e999c66</subsheetid>
+    <display x="-135" y="-15" w="120" h="30" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="c43fc5b3-36c2-4aa9-b6db-1b2dfc4c2006" name="Target Group Name" type="Data">
+    <subsheetid>3d5efda5-aa2f-4601-bfb1-df663e999c66</subsheetid>
+    <display x="-270" y="45" w="120" h="30" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="f4ee0313-704d-42ca-ba3d-912a2a877359" name="Regex Option: Singleline" type="Data">
+    <subsheetid>b64a9f97-98ca-4dd7-95aa-d8663e98ca00</subsheetid>
+    <display x="-270" y="75" w="120" h="30" />
+    <datatype>flag</datatype>
+    <initialvalue>False</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="60d8ab77-77b8-42cb-92a2-d3e38c7b1653" name="Regex Option: Ignore Case" type="Data">
+    <subsheetid>b64a9f97-98ca-4dd7-95aa-d8663e98ca00</subsheetid>
+    <display x="-270" y="105" w="120" h="30" />
+    <datatype>flag</datatype>
+    <initialvalue>False</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="c6f12275-f339-4372-a3a2-90afa83f6a6c" name="Regex Option: Explicit Capture" type="Data">
+    <subsheetid>b64a9f97-98ca-4dd7-95aa-d8663e98ca00</subsheetid>
+    <display x="-270" y="135" w="120" h="30" />
+    <datatype>flag</datatype>
+    <initialvalue>False</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="8f9b37ad-2b6d-4747-90e9-56f2cf2779df" name="Regex Option: Singleline" type="Data">
+    <subsheetid>3d95d0cf-decb-47b5-b811-c03a8bf553b3</subsheetid>
+    <display x="-255" y="45" w="120" h="30" />
+    <datatype>flag</datatype>
+    <initialvalue>False</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="95132183-7069-4fcd-bdaf-425bb989da08" name="Regex Option: Ignore Case" type="Data">
+    <subsheetid>3d95d0cf-decb-47b5-b811-c03a8bf553b3</subsheetid>
+    <display x="-255" y="75" w="120" h="30" />
+    <datatype>flag</datatype>
+    <initialvalue>False</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="504c961f-a7ca-4206-b96b-eb196af19d04" name="Regex Option: Explicit Capture" type="Data">
+    <subsheetid>3d95d0cf-decb-47b5-b811-c03a8bf553b3</subsheetid>
+    <display x="-255" y="105" w="120" h="30" />
+    <datatype>flag</datatype>
+    <initialvalue>False</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="119d5ce9-91a9-4099-8fa3-83d2a6b9cbc6" name="Start" type="Start">
+    <subsheetid>b64a9f97-98ca-4dd7-95aa-d8663e98ca00</subsheetid>
+    <loginhibit />
+    <display x="45" y="-105" />
+    <inputs>
+      <input type="text" name="Regex Pattern" narrative="The regex pattern you want to search with." stage="Regex Pattern" />
+      <input type="text" name="Text To Perform Search On" narrative="The text you want to perform the regex search on." stage="Text To Perform Search On" />
+      <input type="flag" name="Include Full Match Column" narrative="OPTIONAL: (Default on) Do you want the full match column included as the first column of your output collection?" stage="Include Full Match Column" />
+      <input type="flag" name="Regex Option: Singleline" narrative="OPTIONAL: (Default off) Perform search in “Singleline” mode?" stage="Regex Option: Singleline" />
+      <input type="flag" name="Regex Option: Ignore Case" narrative="OPTIONAL: (Default off) Perform search in “Ignore Case” mode?" stage="Regex Option: Ignore Case" />
+      <input type="flag" name="Regex Option: Explicit Capture" narrative="OPTIONAL: (Default off) Perform search in “Explicit Capture” mode?" stage="Regex Option: Explicit Capture" />
+    </inputs>
+    <onsuccess>4bbf6040-e9ac-4d6f-a811-ec28255455b0</onsuccess>
+  </stage>
+  <stage stageid="254006a7-6221-4219-a140-6ed6c932e405" name="Start" type="Start">
+    <subsheetid>3d95d0cf-decb-47b5-b811-c03a8bf553b3</subsheetid>
+    <loginhibit />
+    <display x="60" y="-105" />
+    <inputs>
+      <input type="text" name="Regex Pattern" narrative="The regex pattern you want to test." stage="Regex Pattern" />
+      <input type="text" name="Text To Perform Search On" narrative="The text you want to perform the regex search on." stage="Text To Perform Search On" />
+      <input type="flag" name="Regex Option: Singleline" narrative="OPTIONAL: (Default off) Perform search in “Singleline” mode?" stage="Regex Option: Singleline" />
+      <input type="flag" name="Regex Option: Ignore Case" narrative="OPTIONAL: (Default off) Perform search in “Ignore Case” mode?" stage="Regex Option: Ignore Case" />
+      <input type="flag" name="Regex Option: Explicit Capture" narrative="OPTIONAL: (Default off) Perform search in “Explicit Capture” mode?" stage="Regex Option: Explicit Capture" />
+    </inputs>
+    <onsuccess>09276a81-982e-49fb-9f78-0416fe61b512</onsuccess>
+  </stage>
+  <stage stageid="59b23cdd-6e85-4725-88a1-c1d8ad547923" name="Success" type="Data">
+    <subsheetid>3d5efda5-aa2f-4601-bfb1-df663e999c66</subsheetid>
+    <display x="-135" y="15" w="120" h="30" />
+    <datatype>flag</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="62c41145-36ff-4c54-9f84-f149da766634" name="Success" type="Data">
+    <subsheetid>b64a9f97-98ca-4dd7-95aa-d8663e98ca00</subsheetid>
+    <display x="-135" y="15" w="120" h="30" />
+    <datatype>flag</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="a55119a2-867a-46a6-a106-983262f5d3ed" name="Include Full Match Column" type="Data">
+    <subsheetid>b64a9f97-98ca-4dd7-95aa-d8663e98ca00</subsheetid>
+    <display x="-270" y="45" w="120" h="30" />
+    <datatype>flag</datatype>
+    <initialvalue>True</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="c723df0e-470a-45d1-96e8-e43cfba90cc2" name="Regex Replace" type="SubSheetInfo">
+    <subsheetid>af11dfd1-66ee-4a12-9a1f-e970a7f58ab3</subsheetid>
+    <narrative>Replaces expression matches in "Text To Do Replacement On" with "Replacement text".
+
+Replacement text can contain references to the matched text by using the dollar sign ($).
+$0 inserts the whole match
+$1 to $99 inserts an unnamed match group
+${groupname} inserts a named match group
+
+Actual dollar signs in the replacement text should be escaped by another dollar sign:
+$$ in Replacement text will result in just one $ in the Replaced text.
+
+NOTE: Syntax errors in the regular expression will throw exceptions (including an empty expression), but as long as the expression is valid, the replaced text will be produced even if nothing was replaced.</narrative>
+    <display x="-180" y="-150" w="270" h="180" />
+  </stage>
+  <stage stageid="0472db11-89ee-4ffa-bc9f-80c9b10f1f88" name="End" type="End">
+    <subsheetid>af11dfd1-66ee-4a12-9a1f-e970a7f58ab3</subsheetid>
+    <loginhibit />
+    <display x="60" y="90" />
+    <outputs>
+      <output type="text" name="Replaced text" narrative="The result of the regex replacement operation" stage="Replaced Text" />
+    </outputs>
+  </stage>
+  <stage stageid="17dfeb04-0151-4e38-9f84-6f7d9168a0d1" name="Regex Pattern" type="Data">
+    <subsheetid>af11dfd1-66ee-4a12-9a1f-e970a7f58ab3</subsheetid>
+    <display x="-255" y="-15" w="120" h="30" />
+    <font family="Tahoma" size="10" style="Regular" color="000000" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="323e3ded-99b9-42c6-b1af-6beff0db5b6d" name="Text To Do Replacement On" type="Data">
+    <subsheetid>af11dfd1-66ee-4a12-9a1f-e970a7f58ab3</subsheetid>
+    <display x="-255" y="15" w="120" h="30" />
+    <font family="Tahoma" size="10" style="Regular" color="000000" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="cc6f534b-cd41-424c-b7f4-8ccee53fb1dc" name="Regex Replace" type="Code">
+    <subsheetid>af11dfd1-66ee-4a12-9a1f-e970a7f58ab3</subsheetid>
+    <loginhibit />
+    <display x="60" y="-15" w="120" h="30" />
+    <font family="Tahoma" size="10" style="Regular" color="000000" />
+    <inputs>
+      <input type="text" name="Regex Pattern" expr="[Regex Pattern]" />
+      <input type="text" name="Text To Do Replacement On" expr="[Text To Do Replacement On]" />
+      <input type="text" name="Replacement text" expr="[Replacement Text]" />
+      <input type="flag" name="Regex Option: Singleline" expr="[Regex Option: Singleline]" />
+      <input type="flag" name="Regex Option: Ignore Case" expr="[Regex Option: Ignore Case]" />
+      <input type="flag" name="Regex Option: Explicit Capture" expr="[Regex Option: Explicit Capture]" />
+    </inputs>
+    <outputs>
+      <output type="text" name="Replaced text" stage="Replaced Text" />
+    </outputs>
+    <onsuccess>0472db11-89ee-4ffa-bc9f-80c9b10f1f88</onsuccess>
+    <code><![CDATA[If Regex_Pattern.Length = 0 Then
+	Throw New Exception("Regex Pattern is empty")
+End if
+
+Dim regexOptionConfiguration As RegexOptions = CreateRegexOptions(Regex_Option__Singleline, Regex_Option__Ignore_Case, False, False, Regex_Option__Explicit_Capture, False, False)
+Dim regexObject As New Regex(Regex_Pattern, regexOptionConfiguration)
+Replaced_text = regexObject.Replace(Text_To_Do_Replacement_On.ToString(), Replacement_text.ToString())]]></code>
+  </stage>
+  <stage stageid="e00b8ce2-6cb8-4b6e-a1aa-d49e49b9e3e2" name="Replaced Text" type="Data">
+    <subsheetid>af11dfd1-66ee-4a12-9a1f-e970a7f58ab3</subsheetid>
+    <display x="-120" y="-15" w="120" h="30" />
+    <font family="Tahoma" size="10" style="Regular" color="000000" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="8677028c-906e-4411-872a-fa1c1000a88f" name="Input" type="Block">
+    <subsheetid>af11dfd1-66ee-4a12-9a1f-e970a7f58ab3</subsheetid>
+    <loginhibit />
+    <display x="-315" y="-45" w="120" h="210" />
+    <font family="Segoe UI" size="10" style="Regular" color="339966" />
+  </stage>
+  <stage stageid="92356432-0986-4dfe-bbf6-d1fd75ed3a06" name="Output" type="Block">
+    <subsheetid>af11dfd1-66ee-4a12-9a1f-e970a7f58ab3</subsheetid>
+    <loginhibit />
+    <display x="-180" y="-45" w="120" h="60" />
+    <font family="Segoe UI" size="10" style="Regular" color="3366FF" />
+  </stage>
+  <stage stageid="432a6257-1b9a-4f43-87b2-45c48c823160" name="Regex Option: Singleline" type="Data">
+    <subsheetid>af11dfd1-66ee-4a12-9a1f-e970a7f58ab3</subsheetid>
+    <display x="-255" y="75" w="120" h="30" />
+    <datatype>flag</datatype>
+    <initialvalue>False</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="7cfad1c2-15b1-4ebe-98f2-bd1e045140f2" name="Regex Option: Ignore Case" type="Data">
+    <subsheetid>af11dfd1-66ee-4a12-9a1f-e970a7f58ab3</subsheetid>
+    <display x="-255" y="105" w="120" h="30" />
+    <datatype>flag</datatype>
+    <initialvalue>False</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="5f647e0e-0756-4c1f-a6be-5aebaceb3f49" name="Regex Option: Explicit Capture" type="Data">
+    <subsheetid>af11dfd1-66ee-4a12-9a1f-e970a7f58ab3</subsheetid>
+    <display x="-255" y="135" w="120" h="30" />
+    <datatype>flag</datatype>
+    <initialvalue>False</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="0a029a25-fef0-4ead-b296-41d6332f6308" name="Start" type="Start">
+    <subsheetid>af11dfd1-66ee-4a12-9a1f-e970a7f58ab3</subsheetid>
+    <loginhibit />
+    <display x="60" y="-105" />
+    <inputs>
+      <input type="text" name="Regex Pattern" narrative="The regex pattern you want to search with" stage="Regex Pattern" />
+      <input type="text" name="Text To Do Replacement On" narrative="The text you want to perform the regex replacement on" stage="Text To Do Replacement On" />
+      <input type="text" name="Replacement Text" narrative="The text you want to replace all regex matches with" stage="Replacement Text" />
+      <input type="flag" name="Regex Option: Singleline" narrative="OPTIONAL: (Default off) Perform search in “Singleline” mode?" stage="Regex Option: Singleline" />
+      <input type="flag" name="Regex Option: Ignore Case" narrative="OPTIONAL: (Default off) Perform search in “Ignore Case” mode?" stage="Regex Option: Ignore Case" />
+      <input type="flag" name="Regex Option: Explicit Capture" narrative="OPTIONAL: (Default off) Perform search in “Explicit Capture” mode?" stage="Regex Option: Explicit Capture" />
+    </inputs>
+    <onsuccess>cc6f534b-cd41-424c-b7f4-8ccee53fb1dc</onsuccess>
+  </stage>
+  <stage stageid="95196cf9-4f0e-429b-9f00-c8ca567ccd26" name="Replacement Text" type="Data">
+    <subsheetid>af11dfd1-66ee-4a12-9a1f-e970a7f58ab3</subsheetid>
+    <display x="-255" y="45" w="120" h="30" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="7e7b7b9b-2f06-4bb5-8e47-e6dd2a0cf1a5" name="Require Unique Match" type="Data">
+    <subsheetid>3d5efda5-aa2f-4601-bfb1-df663e999c66</subsheetid>
+    <display x="-270" y="75" w="120" h="30" />
+    <datatype>flag</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="f024b266-8b3b-4e19-ba51-728dbd4e322c" name="Error Message" type="Data">
+    <subsheetid>3d5efda5-aa2f-4601-bfb1-df663e999c66</subsheetid>
+    <display x="-135" y="45" w="120" h="30" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="2c27ad5e-f6d2-4da0-9dcc-9b669e492b0c" name="Escape Text For Use In Regex" type="SubSheetInfo">
+    <subsheetid>3179b4e6-1661-4e50-a967-18e3a43c550c</subsheetid>
+    <narrative>Escapes text so that you can safely insert it into a regular expression.</narrative>
+    <display x="-240" y="-105" w="270" h="90" />
+  </stage>
+  <stage stageid="2a9139ea-c2b2-4359-8c37-39dc0d8cfbfc" name="Start" type="Start">
+    <subsheetid>3179b4e6-1661-4e50-a967-18e3a43c550c</subsheetid>
+    <loginhibit />
+    <display x="15" y="-105" />
+    <inputs>
+      <input type="text" name="Unescaped Text" stage="Unescaped Text" />
+    </inputs>
+    <onsuccess>44b4f15e-6119-4f3f-a474-7233cbb43229</onsuccess>
+  </stage>
+  <stage stageid="2a910bf9-4f5c-4fd5-a85a-eed3a022b4ea" name="End" type="End">
+    <subsheetid>3179b4e6-1661-4e50-a967-18e3a43c550c</subsheetid>
+    <loginhibit />
+    <display x="15" y="90" />
+    <outputs>
+      <output type="text" name="Escaped Text" stage="Escaped Text" />
+    </outputs>
+  </stage>
+  <stage stageid="44b4f15e-6119-4f3f-a474-7233cbb43229" name="Regex Replace" type="SubSheet">
+    <subsheetid>3179b4e6-1661-4e50-a967-18e3a43c550c</subsheetid>
+    <loginhibit />
+    <display x="15" y="-15" w="120" h="30" />
+    <inputs>
+      <input type="text" name="Regex Pattern" narrative="The regex pattern you want to search with" expr="&quot;[.$^{[(|)*+?\\]&quot;" />
+      <input type="text" name="Text To Do Replacement On" narrative="The text you want to perform the regex replacement on" expr="[Unescaped Text]" />
+      <input type="flag" name="Regex Option: Singleline" narrative="OPTIONAL: (Default off) Perform search in “Singleline” mode?" expr="False" />
+      <input type="flag" name="Regex Option: Ignore Case" narrative="OPTIONAL: (Default off) Perform search in “Ignore Case” mode?" expr="False" />
+      <input type="flag" name="Regex Option: Explicit Capture" narrative="OPTIONAL: (Default off) Perform search in “Explicit Capture” mode?" expr="False" />
+      <input type="text" name="Replacement Text" narrative="The text you want to replace all regex matches with" expr="&quot;\$0&quot;" />
+    </inputs>
+    <outputs>
+      <output type="text" name="Replaced text" narrative="The result of the regex replacement operation" stage="Escaped Text" />
+    </outputs>
+    <onsuccess>2a910bf9-4f5c-4fd5-a85a-eed3a022b4ea</onsuccess>
+    <processid>af11dfd1-66ee-4a12-9a1f-e970a7f58ab3</processid>
+  </stage>
+  <stage stageid="20373be2-8f93-4a84-a34a-d062e73d9f47" name="Unescaped Text" type="Data">
+    <subsheetid>3179b4e6-1661-4e50-a967-18e3a43c550c</subsheetid>
+    <display x="-315" y="-15" w="120" h="30" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="ad3b2b92-af43-45ef-9a0d-ba4378d641c3" name="Input" type="Block">
+    <subsheetid>3179b4e6-1661-4e50-a967-18e3a43c550c</subsheetid>
+    <loginhibit />
+    <display x="-375" y="-45" w="120" h="60" />
+    <font family="Segoe UI" size="10" style="Regular" color="339966" />
+  </stage>
+  <stage stageid="f642a7dd-95a1-4482-97f4-89bcafadca86" name="Output" type="Block">
+    <subsheetid>3179b4e6-1661-4e50-a967-18e3a43c550c</subsheetid>
+    <loginhibit />
+    <display x="-240" y="-45" w="120" h="60" />
+    <font family="Segoe UI" size="10" style="Regular" color="3366FF" />
+  </stage>
+  <stage stageid="9a5fe443-90a0-4bca-b29c-09211144f6a3" name="Escaped Text" type="Data">
+    <subsheetid>3179b4e6-1661-4e50-a967-18e3a43c550c</subsheetid>
+    <display x="-180" y="-15" w="120" h="30" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="990ca475-c4a3-444c-95ec-2ad4f5001cd1" name="ReleaseNotes" type="Note">
+    <narrative>* RELEASE NOTES *
+
+Version 1.0 (2018/23/10)
+- Initialise Release</narrative>
+    <display x="-195" y="75" w="210" h="240" />
+    <font family="Segoe UI" size="10" style="Regular" color="333333" />
+  </stage>
+</process>
